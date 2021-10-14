@@ -1,0 +1,213 @@
+﻿@model PracticalTask.RegistrationViewModel
+
+@{
+    ViewBag.Title = "Registration";
+    Layout = "_LayoutBootstrap";
+}
+
+<style>
+    .input-group [data-toggle=datetimepicker] {
+        cursor: pointer;
+    }
+
+    .form-check-input, .form-check-label {
+        cursor: pointer !important;
+    }
+</style>
+<link href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker3.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<h3 style="margin-top:2rem">Employee Registration</h3>
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger small" role="alert">
+                <div asp-validation-summary="All"></div>
+            </div>
+        }
+
+        @if (ViewBag.Success != null)
+        {
+            <div class="alert alert-success small" role="alert">
+                <span>@Html.Raw(ViewBag.Success)</span>
+            </div>
+        }
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger small" role="alert">
+                <span class="text-success">@Html.Raw(ViewBag.Error)</span>
+            </div>
+        }
+
+        <form asp-action="Registration" asp-controller="User" asp-antiforgery="true" method="post">
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">First Name</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" asp-for="Firstname" maxlength="20" />
+                    <span asp-validation-for="Firstname" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Last Name</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" asp-for="Lastname"  maxlength="20"/>
+                    <span asp-validation-for="Lastname" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">State</label>
+                <div class="col-sm-9">
+                    <select asp-for="StateId" asp-items="@(new SelectList(Model.StateList,"Value","Text"))" class="form-control">
+                        <option value="">Select State</option>
+                    </select>
+                    <span asp-validation-for="StateId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">City</label>
+                <div class="col-sm-9">
+                    <select asp-for="CityId" asp-items="@(new SelectList(Model.CityList,"Value","Text"))" class="form-control">
+                        <option value="">Select City</option>
+                    </select>
+                    <span asp-validation-for="CityId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Date of birth</label>
+                <div class="col-sm-9">
+                    <div class="input-group date" id="datetimepickerDateOfBirth" data-target-input="nearest">
+                        <input type="text" asp-for="DateOfBirth" class="form-control" data-target="#datetimepickerDateOfBirth">
+                        <div class="input-group-append" data-target="#datetimepickerDateOfBirth" data-toggle="datetimepicker">
+                            <span class="input-group-text"><i class="fas fa-calendar-week"></i></span>
+                        </div>
+                    </div>
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Total Experience</label>
+                <div class="col-sm-9">
+
+                    <select asp-for="TotalExperience" asp-items="@(new SelectList(Model.TotalExperienceList,"Value","Text"))" class="form-control">
+                        <option value="">Select Total Experience</option>
+                    </select>
+                    <span asp-validation-for="TotalExperience" class="text-danger"></span>
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Salary</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" asp-for="Salary" maxlength="7" />
+                    <span asp-validation-for="Salary" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-6 offset-md-3">
+                    <input type="submit" role="button" class="btn btn-primary" />
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('#datetimepickerDateOfBirth').datepicker({
+                format: 'dd-mm-yyyy',
+                autoclose: true,
+                todayHighlight: true,
+            });
+
+            $('#datetimepickerDateOfBirth').datepicker('setDate', new Date());
+        })
+
+
+        $("input[id*='Salary']").keydown(function (event) {
+
+            if (event.shiftKey == true) {
+                event.preventDefault();
+            }
+
+            if ((event.keyCode >= 48 && event.keyCode <= 57) ||
+                (event.keyCode >= 96 && event.keyCode <= 105) ||
+                event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 ||
+                event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 190) {
+            } else {
+                event.preventDefault();
+            }
+
+            if ($(this).val().indexOf('.') !== -1 && event.keyCode == 190)
+                event.preventDefault();
+            //if a decimal has been added, disable the "."-button
+
+        });
+
+
+        $("#Salary").blur(function () {
+
+            var value = $(this).val().replace(',', '');
+
+
+            if (isFinite(value) && !isNaN(parseFloat(value)) && value > 0) {
+                //$("#Amount").val(parseFloat(value).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                $("#Salary").val(parseFloat(value).toFixed(2));
+            }
+            else {
+                $("#Salary").val("");
+            }
+        });
+
+        $('#StateId').change(function () {
+            var selectedValue = $(this).val();
+
+            $('#CityId').find('option:not(:first)').remove();
+
+            if (selectedValue != "")
+            {
+                 $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetCity","User")" + "?state=" + selectedValue,
+                success: function (data) {
+
+                    $('#CityId').append (
+
+                        data.map(function (item) {
+                            return $('<option/>', {
+                                value: item.value,
+                                text: item.name
+                            })
+                        })
+                    )
+                }
+                    });
+            }
+
+        });
+
+        $('.alert').delay(4000).fadeOut();
+
+    </script>
+
+}

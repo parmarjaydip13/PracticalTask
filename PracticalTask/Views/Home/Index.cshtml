@@ -1,0 +1,148 @@
+﻿@model PracticalTask.HomeViewModel
+@{
+    ViewBag.Title = "Home";
+}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/date-1.1.1/r-2.2.9/datatables.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<form class="form">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>City</label>
+                <select asp-for="City" asp-items="@(new SelectList(Model.CityList,"Text","Text"))" class="form-control">
+                    <option value="">Select State</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>First Name</label>
+                <input type="text" class="form-control" asp-for="Firstname" maxlength="20" />
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" class="form-control" asp-for="Lastname" maxlength="20" />
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Experience</label>
+                <input type="text" class="form-control" asp-for="TotalExperience" maxlength="20" />
+            </div>
+        </div>
+
+    </div>
+</form>
+
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <table id="example" class="table table-bordered table-sm" style="width:100%">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>DOB</th>
+                    <th>Total Experience</th>
+                    <th>Salary</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/date-1.1.1/r-2.2.9/datatables.min.js"></script>
+    <script src="//cdn.datatables.net/plug-ins/1.10.12/sorting/datetime-moment.js"></script>
+    <script>
+
+        var table = "";
+
+        $(document).ready(function () {
+            $.fn.dataTable.moment('DD-MM-YYYY');
+
+           table = $('#example').DataTable({
+               responsive: true,
+                "pageLength": 50,
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                "ajax": {
+                    url: '@Url.Action("GetEmployeedata", "Home")',
+                    dataSrc: "responseData",
+                },
+               dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'excel',
+                        text: 'Export to Excel',
+                        title: 'Employee Data',
+                        className:'btn btn-primary'
+                    }
+                ],
+
+                "columns": [
+                    { "data": "firstname" },
+                    { "data": "lastname" },
+                    { "data": "city" },
+                    { "data": "state" },
+                    { "data": "dateOfBirth" },
+                    { "data": "totalExperience" },
+                    { "data": "salary" },
+
+                ],
+                "columnDefs": [
+                    { "targets": "_all", "className": "no-padding" },
+                    {
+                        targets: [4],
+                        render: function (data) {
+                            return moment(data).format('DD-MM-YYYY');
+                        }
+                    },
+                    {
+                        targets: [6],
+                        render: function (data) {
+                            return parseFloat(data).toFixed(2);
+                        }
+                    }
+               ],
+               drawCallback: function () {
+                   var hasRows = this.api().rows({ filter: 'applied' }).data().length > 0;
+                   $('.buttons-excel')[0].style.visibility = hasRows ? 'visible' : 'hidden'
+               }
+            })
+        });
+
+
+        $('#City').on('change', function () {
+            table.column(2).search(this.value).draw();
+        });
+
+        $('#Firstname').on('input', function (e) {
+            table.column(0).search(this.value).draw();
+        });
+
+        $('#Lastname').on('input', function (e) {
+            table.column(1).search(this.value).draw();
+        });
+
+        $('#TotalExperience').on('input', function (e) {
+            table.column(5).search(this.value).draw();
+        });
+
+    </script>
+}
