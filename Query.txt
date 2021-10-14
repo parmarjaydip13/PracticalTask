@@ -1,0 +1,132 @@
+USE [PracticalTask_DB]
+GO
+/****** Object:  Table [dbo].[TblCity]    Script Date: 10/13/2021 5:58:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TblCity](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[StateId] [int] NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_TblCity] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TblEmployee]    Script Date: 10/13/2021 5:58:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TblEmployee](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Firstname] [nvarchar](50) NOT NULL,
+	[Lastname] [nvarchar](50) NOT NULL,
+	[StateId] [int] NOT NULL,
+	[CityId] [int] NOT NULL,
+	[DateOfBirth] [date] NOT NULL,
+	[TotalExperience] [nvarchar](20) NOT NULL,
+	[Salary] [decimal](18, 2) NOT NULL,
+	[CreatedDate] [datetime] NOT NULL,
+ CONSTRAINT [PK_TblEmployee] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TblState]    Script Date: 10/13/2021 5:58:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TblState](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_TblState] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TblUser]    Script Date: 10/13/2021 5:58:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TblUser](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[EmailAddress] [varchar](50) NOT NULL,
+	[PasswordHash] [varchar](255) NOT NULL,
+ CONSTRAINT [PK_TblUser] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[TblCity] ON 
+GO
+INSERT [dbo].[TblCity] ([Id], [StateId], [Name]) VALUES (1, 1, N'Rajkot')
+GO
+INSERT [dbo].[TblCity] ([Id], [StateId], [Name]) VALUES (2, 1, N'Surat')
+GO
+INSERT [dbo].[TblCity] ([Id], [StateId], [Name]) VALUES (3, 1, N'Vadodara')
+GO
+INSERT [dbo].[TblCity] ([Id], [StateId], [Name]) VALUES (4, 3, N'Mumbai')
+GO
+INSERT [dbo].[TblCity] ([Id], [StateId], [Name]) VALUES (5, 3, N'Pune')
+GO
+INSERT [dbo].[TblCity] ([Id], [StateId], [Name]) VALUES (6, 3, N'Nagpur')
+GO
+SET IDENTITY_INSERT [dbo].[TblCity] OFF
+GO
+SET IDENTITY_INSERT [dbo].[TblEmployee] ON 
+GO
+INSERT [dbo].[TblEmployee] ([Id], [Firstname], [Lastname], [StateId], [CityId], [DateOfBirth], [TotalExperience], [Salary], [CreatedDate]) VALUES (1, N'Jaydip', N'Parmar', 1, 1, CAST(N'2021-10-13' AS Date), N'6 Months', CAST(12000.00 AS Decimal(18, 2)), CAST(N'2021-10-13T10:02:42.560' AS DateTime))
+GO
+INSERT [dbo].[TblEmployee] ([Id], [Firstname], [Lastname], [StateId], [CityId], [DateOfBirth], [TotalExperience], [Salary], [CreatedDate]) VALUES (2, N'Jaydip', N'Parmar', 1, 1, CAST(N'2021-10-13' AS Date), N'6 Months', CAST(12000.00 AS Decimal(18, 2)), CAST(N'2021-10-13T10:16:34.213' AS DateTime))
+GO
+INSERT [dbo].[TblEmployee] ([Id], [Firstname], [Lastname], [StateId], [CityId], [DateOfBirth], [TotalExperience], [Salary], [CreatedDate]) VALUES (3, N'Raju', N'Patel', 1, 2, CAST(N'1990-01-01' AS Date), N'4 Years', CAST(120000.00 AS Decimal(18, 2)), CAST(N'2021-10-13T12:01:28.483' AS DateTime))
+GO
+INSERT [dbo].[TblEmployee] ([Id], [Firstname], [Lastname], [StateId], [CityId], [DateOfBirth], [TotalExperience], [Salary], [CreatedDate]) VALUES (4, N'Magan', N'Bhavan', 3, 4, CAST(N'2021-05-20' AS Date), N'More then 4 Years', CAST(10000.00 AS Decimal(18, 2)), CAST(N'2021-10-13T13:43:31.133' AS DateTime))
+GO
+INSERT [dbo].[TblEmployee] ([Id], [Firstname], [Lastname], [StateId], [CityId], [DateOfBirth], [TotalExperience], [Salary], [CreatedDate]) VALUES (5, N'Nirav', N'Chuhan', 3, 5, CAST(N'1995-05-12' AS Date), N'2 Years', CAST(1200000.00 AS Decimal(18, 2)), CAST(N'2021-10-13T13:44:22.257' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[TblEmployee] OFF
+GO
+SET IDENTITY_INSERT [dbo].[TblState] ON 
+GO
+INSERT [dbo].[TblState] ([Id], [Name]) VALUES (1, N'Gujrat')
+GO
+INSERT [dbo].[TblState] ([Id], [Name]) VALUES (2, N'Goa')
+GO
+INSERT [dbo].[TblState] ([Id], [Name]) VALUES (3, N'Maharashtra')
+GO
+INSERT [dbo].[TblState] ([Id], [Name]) VALUES (4, N'Punjab')
+GO
+INSERT [dbo].[TblState] ([Id], [Name]) VALUES (5, N'Kerala')
+GO
+INSERT [dbo].[TblState] ([Id], [Name]) VALUES (6, N'Assam')
+GO
+SET IDENTITY_INSERT [dbo].[TblState] OFF
+GO
+SET IDENTITY_INSERT [dbo].[TblUser] ON 
+GO
+INSERT [dbo].[TblUser] ([ID], [EmailAddress], [PasswordHash]) VALUES (4, N'abc@gmail.com', N'AIVMMHNVhpNA05qx6Vmo7ch1aOGHiK5N1K2XMfKSpb4HBcmEqfNk/OXa70hdF4oIMg==')
+GO
+SET IDENTITY_INSERT [dbo].[TblUser] OFF
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__TblUser__49A14740FCC07ACD]    Script Date: 10/13/2021 5:58:50 PM ******/
+ALTER TABLE [dbo].[TblUser] ADD UNIQUE NONCLUSTERED 
+(
+	[EmailAddress] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[TblCity]  WITH CHECK ADD  CONSTRAINT [FK_TblCity_TblState] FOREIGN KEY([Id])
+REFERENCES [dbo].[TblState] ([Id])
+GO
+ALTER TABLE [dbo].[TblCity] CHECK CONSTRAINT [FK_TblCity_TblState]
+GO
